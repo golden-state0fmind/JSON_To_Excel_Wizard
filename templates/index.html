@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON to Excel Wizard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body>
+
+    <h1>JSON to Excel Wizard</h1>
+    <div class="layout">
+
+        <div class="two-column-layout">
+            <div class="directions-container">
+                <h2>Directions:</h2>
+                <ol>
+                    <li>
+                        <h3>Upload JSON File:</h3>
+                        <p>Click the "Choose File" button and select your JSON file. Then Submit the file to start converting.</p>
+                    </li>
+                    <li>
+                        <h3>Download Excel:</h3>
+                        <p>Once the conversion is complete, click the "Download Excel" button. This will download the
+                            Excel file
+                            containing the converted data.</p>
+                    </li>
+                </ol>
+                <p>Enjoy the streamlined process of uploading, converting, and exporting your data!</p>
+            </div>
+
+            <div class="card-container">
+                <form id="jsonForm" enctype="multipart/form-data">
+                    <!-- Hidden input to trigger file selection -->
+                    <input type="file" id="jsonFile" name="jsonFile" accept=".json">
+                    <!-- Custom button to simulate file input selection -->
+                    <div id="uploadMessage" class="upload-message">File Uploaded Successfully!</div>
+                    <label for="jsonFile" class="custom-file-button">Choose File</label>
+                    <br />
+                    <div id="uploadMessage" class="upload-message">Please Submit JSON File To Convert!</div>
+                    <button type="submit" id="submitJsonButton" class="custom-file-button">Submit JSON</button>
+                </form>
+            </div>
+
+
+            <div class="container" id="buttonsContainer" style="visibility: hidden;">
+                <!-- <button id="runButton">Convert JSON To CSV</button> -->
+                <button id="downloadButton">Download Excel</button>
+                <br />
+                <h2 id="output"></h2>
+                <form action="/clear_files" method="post">
+                    <button type="submit">Clear Files</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
+    <script>
+        function showButtons() {
+                const buttonsContainer = document.getElementById('buttonsContainer');
+                buttonsContainer.style.visibility = 'visible';
+
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '/convert_and_export', true);
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        var response = JSON.parse(xhr.responseText);
+                        var outputDiv = document.getElementById('output');
+                        outputDiv.innerHTML = `Excel File Ready For Download`;
+                    } else {
+                        document.getElementById('output').textContent =
+                            'Error: ' + xhr.responseText;
+                    }
+                };
+                xhr.send();
+            }
+
+            document.getElementById('jsonFile').addEventListener('change', function () {
+                document.getElementById('uploadMessage').style.display = 'block';
+                // Add the "file-selected" class to the form
+                document.querySelector('.card-container').classList.add('file-selected');
+            });
+
+            document.getElementById('jsonForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                var formData = new FormData(this);
+
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '/upload_json', true);
+
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        var response = JSON.parse(xhr.responseText);
+                        document.getElementById('output').textContent =
+                            'JSON uploaded: ' + response.json_file;
+                    } else {
+                        document.getElementById('output').textContent =
+                            'Error uploading JSON: ' + xhr.responseText;
+                    }
+                };
+                setTimeout(showButtons, 1000);
+                xhr.send(formData);
+            });
+
+            document
+                .getElementById('downloadButton')
+                .addEventListener('click', function () {
+                    window.location.href = '/download_excel';
+                });
+    </script>
+</body>
+
+</html>
