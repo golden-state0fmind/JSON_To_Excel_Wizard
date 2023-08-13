@@ -1,0 +1,129 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #121212; /* Dark background color */
+    color: #ffffff; /* Text color for dark mode */
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+.card-container {
+    text-align: center;
+    margin-top: 20px;
+    background-color: #333333; /* Darker card background color for contrast */
+    border-radius: 20px; /* Rounded corners for the card */
+    padding: 20px;
+    box-shadow: 5px 5px 10px #0c0c0c, -5px -5px 10px #1e1e1e; /* Neumorphic shadow for card */
+    width: 100%;
+    max-width: 500px;
+}
+
+.container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+button, label {
+    font-size: large;
+    width: 250px;
+}
+
+.container button, .custom-file-button {
+    display: block; /* Make the button full-width */
+    margin: 20px auto;
+    background-color: #292929; /* Darker button background color */
+    color: #ffffff; /* Text color for buttons */
+    border: none;
+    padding: 24px;
+    cursor: pointer;
+    border-radius: 20px; /* Rounded corners */
+    transition: box-shadow 0.3s, background-color 0.3s;
+    box-shadow: 5px 5px 10px #0c0c0c, -5px -5px 10px #1e1e1e; /* Dark Neumorphic shadow */
+    width: 300px;
+}
+
+.container button:hover, .custom-file-button:hover {
+    box-shadow: none; /* Remove shadow on hover */
+    background-color: #4c4c4c; /* Darker background color on hover */
+}
+
+#output, #runButton, #downloadButton {
+    margin-top: 20px;
+    font-size: large;
+}
+
+/* Hide the default input element */
+input[type="file"] {
+    display: none;
+}
+
+.directions-container {
+    background-color: #292929; /* Darker card background color for contrast */
+    border-radius: 20px; /* Rounded corners for the card */
+    padding: 20px;
+    box-shadow: 5px 5px 10px #0c0c0c, -5px -5px 10px #1e1e1e; /* Neumorphic shadow for card */
+    text-align: left; /* Left-align text within the container */
+    margin-top: 20px; /* Add some spacing between the directions and buttons */
+    width: 100%;
+}
+
+.directions-container h2 {
+    font-size: 24px; /* Larger font size for headings */
+    margin-bottom: 10px; /* Add spacing below headings */
+    color: #ffffff; /* Text color for headings */
+}
+
+.directions-container ol {
+    padding-left: 20px; /* Indent the ordered list */
+    list-style-type: decimal; /* Use decimal numbers for list items */
+    color: #cccccc; /* Lighter text color for list items */
+    font-size: 18px; /* Font size for list items */
+}
+
+.directions-container li {
+    margin-bottom: 15px; /* Add spacing between list items */
+}
+
+.directions-container p {
+    font-size: 16px; /* Font size for paragraphs */
+    color: #ffffff; /* Text color for paragraphs */
+}
+
+.two-column-layout {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 20px;
+    max-width: 1000px; /* Adjust as needed */
+    margin: 0 auto; /* Center the content */
+}
+
+.upload-message {
+    display: none;
+    margin-top: 10px;
+    color: #00ff00; /* Green color for success message */
+}
+
+.file-selected .upload-message {
+    display: block;
+}
+
+/* Apply media query for smaller screens */
+@media screen and (max-width: 768px) {
+    .two-column-layout {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .directions-container, .card-container, .container button, .custom-file-button {
+        max-width: 90%;
+    }
+}
